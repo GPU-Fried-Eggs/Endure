@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    x:Class="Endure.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:strings="using:Endure.Resources.Strings"
+    Title="{x:Static strings:AppResource.Settings}">
+    <VerticalStackLayout Margin="10" Spacing="6">
+        <HorizontalStackLayout Spacing="6">
+            <Switch IsToggled="{Binding IsDarkModeEnabled}"
+                    SemanticProperties.Description="{x:Static strings:AppResource.Semantic_Description_Toggle_Mode}"
+                    HorizontalOptions="Center"/>
+            <Label Text="{x:Static strings:AppResource.Dark_Mode}"
+                   SemanticProperties.Description="{x:Static strings:AppResource.Dark_Mode}"
+                   VerticalOptions="Center"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

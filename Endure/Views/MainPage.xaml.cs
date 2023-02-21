@@ -1,4 +1,4 @@
-﻿namespace Endure;
+﻿namespace Endure.Views;
 
 public partial class MainPage : ContentPage
 {

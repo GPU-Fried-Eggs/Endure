@@ -4,5 +4,5 @@ namespace Endure.Services;
 
 public interface IMemoService
 {
-    Task<List<Card>?> GetTasksAsync();
+    Task<List<Memo>?> GetTasksAsync();
 }

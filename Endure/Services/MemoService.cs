@@ -9,7 +9,7 @@ public class MemoService : IMemoService
     private readonly HttpClient m_client;
     private readonly JsonSerializerOptions m_jsonSerializerOptions;
 
-    public List<Card>? Cards { get; private set; }
+    public List<Memo>? Memos { get; private set; }
 
     public MemoService(IHttpsClientHandlerService service)
     {
@@ -26,11 +26,11 @@ public class MemoService : IMemoService
         };
     }
 
-    public async Task<List<Card>?> GetTasksAsync()
+    public async Task<List<Memo>?> GetTasksAsync()
     {
-        Cards = new List<Card>();
+        Memos = new List<Memo>();
 
-        var uri = new Uri(string.Format(Constants.ApiUrl, "cards"));
+        var uri = new Uri(string.Format(Constants.ApiUrl, "memo"));
 
         try
         {
@@ -38,7 +38,7 @@ public class MemoService : IMemoService
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Cards = JsonSerializer.Deserialize<List<Card>>(content, m_jsonSerializerOptions);
+                Memos = JsonSerializer.Deserialize<List<Memo>>(content, m_jsonSerializerOptions);
             }
         }
         catch (Exception e)
@@ -46,6 +46,6 @@ public class MemoService : IMemoService
             Debug.WriteLine(@"\tERROR {0}", e.Message);
         }
 
-        return Cards;
+        return Memos;
     }
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Endure.AppDesktopShell"
+    x:DataType="viewmodels:ShellViewModel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="using:Endure.Models"
+    xmlns:viewmodels="using:Endure.ViewModels"
+    xmlns:views="using:Endure.Views"
+    Shell.FlyoutBehavior="Disabled">
+    <Shell.ItemTemplate>
+        <DataTemplate x:DataType="models:AppSection">
+            <StackLayout Orientation="Horizontal">
+                <Image Margin="6,10" WidthRequest="18" HeightRequest="18" Source="{Binding Icon}" />
+                <Label Margin="6,10" Text="{Binding Title}" />
+            </StackLayout>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+    <Shell.FlyoutHeader>
+        <Grid>
+            <Image></Image>
+        </Grid>
+    </Shell.FlyoutHeader>
+    <FlyoutItem Title="{Binding Main.Title}"
+                Icon="{Binding Main.Icon}">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="{Binding Settings.Title}"
+                Icon="{Binding Settings.Icon}">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
+        </Tab>
+    </FlyoutItem>
+</Shell>
