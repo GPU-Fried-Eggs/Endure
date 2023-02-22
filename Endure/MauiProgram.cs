@@ -11,7 +11,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
 #if WINDOWS
-           .ConfigureAcrylicBackground()  
+           .ConfigureBackdropBackground()  
 #endif
             .ConfigureFonts(fonts =>
             {

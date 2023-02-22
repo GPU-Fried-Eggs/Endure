@@ -22,22 +22,27 @@ public class DispatcherQueueHelper
     }
 
     [DllImport("CoreMessaging.dll")]
-    private static extern int CreateDispatcherQueueController([In] DispatcherQueueOptions options, [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object dispatcherQueueController);
+    private static extern unsafe int CreateDispatcherQueueController(DispatcherQueueOptions options, nint* dispatcherQueueController);
 
-    private object? m_dispatcherQueueController;
+    private nint m_dispatcherQueueController = nint.Zero;
 
     public void EnsureWindowsSystemDispatcherQueueController()
     {
         if (DispatcherQueue.GetForCurrentThread() != null) return;
 
-        if (m_dispatcherQueueController == null)
+        if (m_dispatcherQueueController == nint.Zero)
         {
             DispatcherQueueOptions options;
             options.dwSize = Marshal.SizeOf(typeof(DispatcherQueueOptions));
             options.threadType = 2;    // DQTYPE_THREAD_CURRENT
             options.apartmentType = 2; // DQTAT_COM_STA
 
-            CreateDispatcherQueueController(options, ref m_dispatcherQueueController!);
+            unsafe
+            {
+                var dispatcherQueueController = nint.Zero;
+                CreateDispatcherQueueController(options, &dispatcherQueueController);
+                m_dispatcherQueueController = dispatcherQueueController;
+            }
         }
     }
 }
@@ -45,8 +50,8 @@ public class DispatcherQueueHelper
 public class BackdropService
 {
     private ISystemBackdropControllerWithTargets? m_controller;
-    private SystemBackdropConfiguration? m_configuration;
-    private Window? m_window;
+    private readonly SystemBackdropConfiguration? m_configuration;
+    private readonly Window m_window;
 
     public BackdropService(Window window)
     {
@@ -54,13 +59,26 @@ public class BackdropService
         var dispatcherQueueHelper = new DispatcherQueueHelper();
         dispatcherQueueHelper.EnsureWindowsSystemDispatcherQueueController();
 
-        TrySetMicaBackdrop();
+        m_configuration = new SystemBackdropConfiguration { IsInputActive = true };
+
+        switch (App.Current.BackdropStyle)
+        {
+            case BackdropStyle.Mica:
+            default:
+                TrySetMicaBackdrop();
+                break;
+            case BackdropStyle.Acrylic:
+                TrySetAcrylicBackdrop();
+                break;
+        }
     }
 
     private void WindowActivated(object sender, WindowActivatedEventArgs args)
     {
         if (m_configuration != null)
+        {
             m_configuration.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
+        }
     }
 
     private void WindowClosed(object sender, WindowEventArgs args)
@@ -71,12 +89,7 @@ public class BackdropService
             m_controller = null;
         }
 
-        if (m_window != null)
-        {
-            m_window.Activated -= WindowActivated;
-        }
-
-        m_configuration = null;
+        m_window.Activated -= WindowActivated;
     }
 
     private void WindowThemeChanged(AppTheme theme)
@@ -94,15 +107,16 @@ public class BackdropService
 
     private void WindowBackdropChanged(BackdropStyle style)
     {
-        if (m_window != null)
+        if (m_controller != null)
         {
-            m_controller?.Dispose();
+            m_controller.Dispose();
             m_controller = null;
-            m_window.Activated -= WindowActivated;
-            m_window.Closed -= WindowClosed;
-            m_configuration = null;
         }
-        switch (style)
+
+        m_window.Activated -= WindowActivated;
+        m_window.Closed -= WindowClosed;
+
+        switch (App.Current.BackdropStyle)
         {
             case BackdropStyle.Mica:
             default:
@@ -116,9 +130,8 @@ public class BackdropService
 
     private void TrySetMicaBackdrop()
     {
-        if (MicaController.IsSupported() && m_window != null)
+        if (MicaController.IsSupported())
         {
-            m_configuration = new SystemBackdropConfiguration { IsInputActive = true };
             m_window.Activated += WindowActivated;
             m_window.Closed += WindowClosed;
 
@@ -135,12 +148,11 @@ public class BackdropService
 
     private void TrySetAcrylicBackdrop()
     {
-        if (DesktopAcrylicController.IsSupported() && m_window != null)
+        if (DesktopAcrylicController.IsSupported())
         {
-            m_configuration = new SystemBackdropConfiguration { IsInputActive = true };
             m_window.Activated += WindowActivated;
             m_window.Closed += WindowClosed;
-            
+
             WindowThemeChanged(App.Current.Theme);
 
             m_controller = new DesktopAcrylicController();
@@ -152,17 +164,25 @@ public class BackdropService
         }
     }
 }
+#endif
 
 public static class BackdropServiceExtension
 {
-    public static MauiAppBuilder ConfigureAcrylicBackground(this MauiAppBuilder builder)
+    public static MauiAppBuilder ConfigureBackdropBackground(this MauiAppBuilder builder)
     {
 #if WINDOWS
-        builder.ConfigureLifecycleEvents(events => events.AddWindows(wndLifeCycleBuilder =>
-                wndLifeCycleBuilder.OnWindowCreated(window => new BackdropService(window))));
+        builder.ConfigureLifecycleEvents(events =>
+        {
+            events.AddWindows(wndLifeCycleBuilder =>
+            {
+                wndLifeCycleBuilder.OnWindowCreated(window =>
+                {
+                    var _ = new BackdropService(window);
+                });
+            });
+        });
 #endif
         return builder;
     }
 }
 
-#endif
