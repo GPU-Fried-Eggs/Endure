@@ -8,6 +8,8 @@ public class ShellViewModel : ObservableObject
 {
     public AppSection Main { get; }
 
+    public AppSection Review { get; }
+
     public AppSection Settings { get; }
 
     public ShellViewModel()
@@ -16,6 +18,11 @@ public class ShellViewModel : ObservableObject
         {
             Title = AppResource.Home,
             Icon = "ic_fluent_home.png"
+        };
+        Review = new AppSection
+        {
+            Title = AppResource.Review,
+            Icon = "ic_fluent_book.png"
         };
         Settings = new AppSection
         {

@@ -60,11 +60,29 @@ namespace Endure.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dark Mode.
+        ///   Looks up a localized string similar to Backdrop Mode.
         /// </summary>
-        internal static string Dark_Mode {
+        internal static string Backdrop_Mode {
             get {
-                return ResourceManager.GetString("Dark_Mode", resourceCulture);
+                return ResourceManager.GetString("Backdrop_Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application backdrop mode.
+        /// </summary>
+        internal static string Description_Backdrop_Mode {
+            get {
+                return ResourceManager.GetString("Description_Backdrop_Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application theme mode.
+        /// </summary>
+        internal static string Description_Theme_Mode {
+            get {
+                return ResourceManager.GetString("Description_Theme_Mode", resourceCulture);
             }
         }
         
@@ -78,11 +96,11 @@ namespace Endure.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enable or disable dark mode.
+        ///   Looks up a localized string similar to Review.
         /// </summary>
-        internal static string Semantic_Description_Toggle_Mode {
+        internal static string Review {
             get {
-                return ResourceManager.GetString("Semantic_Description_Toggle_Mode", resourceCulture);
+                return ResourceManager.GetString("Review", resourceCulture);
             }
         }
         
@@ -92,6 +110,15 @@ namespace Endure.Resources.Strings {
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme Mode.
+        /// </summary>
+        internal static string Theme_Mode {
+            get {
+                return ResourceManager.GetString("Theme_Mode", resourceCulture);
             }
         }
     }

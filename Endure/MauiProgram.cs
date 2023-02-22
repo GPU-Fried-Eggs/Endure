@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Endure.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Endure;
 
@@ -9,6 +10,9 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+#if WINDOWS
+           .ConfigureAcrylicBackground()  
+#endif
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

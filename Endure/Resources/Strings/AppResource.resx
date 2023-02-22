@@ -24,10 +24,19 @@
     <data name="Settings" xml:space="preserve">
         <value>Settings</value>
     </data>
-    <data name="Dark_Mode" xml:space="preserve">
-        <value>Dark Mode</value>
+    <data name="Theme_Mode" xml:space="preserve">
+        <value>Theme Mode</value>
     </data>
-    <data name="Semantic_Description_Toggle_Mode" xml:space="preserve">
-        <value>Enable or disable dark mode</value>
+    <data name="Description_Theme_Mode" xml:space="preserve">
+        <value>Application theme mode</value>
+    </data>
+    <data name="Review" xml:space="preserve">
+        <value>Review</value>
+    </data>
+    <data name="Backdrop_Mode" xml:space="preserve">
+        <value>Backdrop Mode</value>
+    </data>
+    <data name="Description_Backdrop_Mode" xml:space="preserve">
+        <value>Application backdrop mode</value>
     </data>
 </root>

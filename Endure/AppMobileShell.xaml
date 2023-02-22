@@ -6,14 +6,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="using:Endure.ViewModels"
     xmlns:views="using:Endure.Views">
+
     <TabBar>
-        <Tab Title="{Binding Main.Title}"
-             Icon="{Binding Main.Icon}">
-            <ShellContent ContentTemplate="{DataTemplate views:MainPage}"/>
+
+        <Tab Title="{Binding Main.Title}" Icon="{Binding Main.Icon}">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
         </Tab>
-        <Tab Title="{Binding Settings.Title}"
-             Icon="{Binding Settings.Icon}">
+
+        <Tab Title="{Binding Review.Title}" Icon="{Binding Review.Icon}">
+            <ShellContent ContentTemplate="{DataTemplate views:ReviewPage}" />
+        </Tab>
+
+        <Tab Title="{Binding Settings.Title}" Icon="{Binding Settings.Icon}">
             <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
         </Tab>
+
     </TabBar>
+
 </Shell>

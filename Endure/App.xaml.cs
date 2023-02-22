@@ -1,22 +1,57 @@
-﻿namespace Endure;
+﻿using Endure.ViewModels;
+
+namespace Endure;
 
 public partial class App
 {
-    private Window? m_window;
+    public new static App Current => Application.Current as App ?? throw new ArgumentNullException();
+
+    public Window? StartupWindow { get; private set; }
+
+    public Action<AppTheme> ThemeChanged = _ => { };
+
+    public AppTheme Theme
+    {
+        get =>
+            Preferences.ContainsKey(nameof(Theme))
+                ? Enum.Parse<AppTheme>(Preferences.Get(nameof(Theme), Enum.GetName(AppTheme.Light)) ?? string.Empty)
+                : AppTheme.Light;
+        set
+        {
+            Preferences.Set(nameof(Theme), value.ToString());
+            Current.UserAppTheme = value;
+            ThemeChanged(value);
+        }
+    }
+
+    public Action<BackdropStyle> BackdropChanged = _ => { };
+
+    public BackdropStyle BackdropStyle
+    {
+        get =>
+            Preferences.ContainsKey(nameof(BackdropStyle))
+                ? Enum.Parse<BackdropStyle>(Preferences.Get(nameof(BackdropStyle), Enum.GetName(BackdropStyle.Mica)) ?? string.Empty)
+                : BackdropStyle.Mica;
+        set
+        {
+            Preferences.Set(nameof(BackdropStyle), value.ToString());
+            BackdropChanged(value);
+        }
+    }
 
     public App()
     {
         InitializeComponent();
 
-        switch (Constants.Theme)
+        switch (Theme)
         {
             case AppTheme.Unspecified:
             case AppTheme.Light:
             default:
-                if (Current != null) Current.UserAppTheme = AppTheme.Light;
+                Current.UserAppTheme = AppTheme.Light;
                 break;
             case AppTheme.Dark:
-                if (Current != null) Current.UserAppTheme = AppTheme.Dark;
+                Current.UserAppTheme = AppTheme.Dark;
                 break;
         }
         
@@ -25,26 +60,26 @@ public partial class App
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        m_window = base.CreateWindow(activationState);
+        StartupWindow = base.CreateWindow(activationState);
 
         if (Constants.Desktop)
         {
-            m_window.MinimumWidth = 960;
-            m_window.MinimumHeight = 540;
+            StartupWindow.MinimumWidth = 768;
+            StartupWindow.MinimumHeight = 432;
 
-            m_window.MaximumWidth = 1920;
-            m_window.MaximumHeight = 1080;
+            StartupWindow.MaximumWidth = 1920;
+            StartupWindow.MaximumHeight = 1080;
 
-            m_window.SizeChanged += OnResize;
+            StartupWindow.SizeChanged += OnResize;
         }
 
-        return m_window;
+        return StartupWindow;
     }
 
     private void OnResize(object? sender, EventArgs e)
     {
-        if (m_window is null) return;
+        if (StartupWindow is null) return;
 
-        Shell.Current.FlyoutBehavior = m_window.Width < 1200 ? FlyoutBehavior.Flyout : FlyoutBehavior.Locked;
+        Shell.Current.FlyoutBehavior = StartupWindow.Width < 960 ? FlyoutBehavior.Flyout : FlyoutBehavior.Locked;
     }
 }

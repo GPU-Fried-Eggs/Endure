@@ -2,15 +2,6 @@
 
 public static class Constants
 {
-    public static AppTheme Theme
-    {
-        get =>
-            Preferences.ContainsKey(nameof(Theme))
-                ? Enum.Parse<AppTheme>(Preferences.Get(nameof(Theme), Enum.GetName(AppTheme.Light)) ?? string.Empty)
-                : AppTheme.Light;
-        set => Preferences.Set(nameof(Theme), value.ToString());
-    }
-
     public static bool Desktop =>
         DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.MacCatalyst;
 

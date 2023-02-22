@@ -4,15 +4,44 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:strings="using:Endure.Resources.Strings"
+    xmlns:converters="using:Endure.Converters"
     Title="{x:Static strings:AppResource.Settings}">
-    <VerticalStackLayout Margin="10" Spacing="6">
-        <HorizontalStackLayout Spacing="6">
-            <Switch IsToggled="{Binding IsDarkModeEnabled}"
-                    SemanticProperties.Description="{x:Static strings:AppResource.Semantic_Description_Toggle_Mode}"
-                    HorizontalOptions="Center"/>
-            <Label Text="{x:Static strings:AppResource.Dark_Mode}"
-                   SemanticProperties.Description="{x:Static strings:AppResource.Dark_Mode}"
-                   VerticalOptions="Center"/>
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
+    <ContentPage.Resources>
+        <converters:EnumToStringConverter x:Key="ThemeConverter" />
+        <converters:EnumToIntConverter x:Key="StyleConverter" />
+    </ContentPage.Resources>
+
+    <ScrollView Padding="12,24,12,24">
+
+        <VerticalStackLayout Margin="24,0,0,0" Spacing="12">
+
+            <StackLayout RadioButtonGroup.GroupName="themeMode"
+                         RadioButtonGroup.SelectedValue="{Binding Theme, Converter={StaticResource ThemeConverter}}"
+                         HorizontalOptions="Start">
+                <Label Text="{x:Static strings:AppResource.Theme_Mode}"
+                       SemanticProperties.HeadingLevel="Level2"
+                       Margin="0,8,0,8"
+                       FontAttributes="Bold"
+                       FontSize="18" />
+                <Label Text="{x:Static strings:AppResource.Description_Theme_Mode}" />
+                <RadioButton Content="Light mode" Value="Light" />
+                <RadioButton Content="Dark mode" Value="Dark" />
+                <RadioButton IsEnabled="False" Content="Sync with OS" Value="System" />
+            </StackLayout>
+
+            <StackLayout HorizontalOptions="Start">
+                <Label Text="{x:Static strings:AppResource.Backdrop_Mode}"
+                       SemanticProperties.HeadingLevel="Level2"
+                       Margin="0,8,0,8"
+                       FontAttributes="Bold"
+                       FontSize="18" />
+                <Picker Title="{x:Static strings:AppResource.Description_Backdrop_Mode}"
+                        ItemsSource="{Binding Backdrops}"
+                        SelectedIndex="{Binding Style, Converter={StaticResource StyleConverter}}"/>
+            </StackLayout>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
 </ContentPage>
