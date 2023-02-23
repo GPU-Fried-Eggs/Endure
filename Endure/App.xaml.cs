@@ -15,7 +15,7 @@ public partial class App
         get =>
             Preferences.ContainsKey(nameof(Theme))
                 ? Enum.Parse<AppTheme>(Preferences.Get(nameof(Theme), Enum.GetName(AppTheme.Light)) ?? string.Empty)
-                : AppTheme.Light;
+                : Current.RequestedTheme;
         set
         {
             Preferences.Set(nameof(Theme), value.ToString());

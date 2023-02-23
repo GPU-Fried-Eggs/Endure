@@ -9,15 +9,18 @@
 
     <TabBar>
 
-        <Tab Title="{Binding Main.Title}" Icon="{Binding Main.Icon}">
+        <Tab Title="{Binding Main.Title}"
+             Icon="{AppThemeBinding Light='ic_fluent_home_light.png', Dark='ic_fluent_home_dark.png'}">
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
         </Tab>
 
-        <Tab Title="{Binding Review.Title}" Icon="{Binding Review.Icon}">
+        <Tab Title="{Binding Review.Title}"
+             Icon="{AppThemeBinding Light='ic_fluent_book_light.png', Dark='ic_fluent_book_dark.png'}">
             <ShellContent ContentTemplate="{DataTemplate views:ReviewPage}" />
         </Tab>
 
-        <Tab Title="{Binding Settings.Title}" Icon="{Binding Settings.Icon}">
+        <Tab Title="{Binding Settings.Title}"
+             Icon="{AppThemeBinding Light='ic_fluent_settings_light.png', Dark='ic_fluent_settings_dark.png'}">
             <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
         </Tab>
 

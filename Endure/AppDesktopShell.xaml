@@ -4,9 +4,19 @@
     x:DataType="viewmodels:ShellViewModel"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="using:Endure.Converters"
     xmlns:viewmodels="using:Endure.ViewModels"
     xmlns:views="using:Endure.Views"
     Shell.FlyoutBehavior="Disabled">
+    <Shell.Resources>
+        <converters:DateTimeToStringConverter x:Key="DateTimeConverter" />
+    </Shell.Resources>
+    <Shell.FlyoutHeader>
+        <StackLayout Orientation="Vertical">
+            <Image HeightRequest="100" Source="ic_fluent_archive.png" />
+            <SearchBar Margin="16,8" MinimumHeightRequest="24"  Placeholder="Search" />
+        </StackLayout>
+    </Shell.FlyoutHeader>
     <Shell.ItemTemplate>
         <DataTemplate x:DataType="FlyoutItem">
             <StackLayout Orientation="Horizontal">
@@ -15,28 +25,29 @@
             </StackLayout>
         </DataTemplate>
     </Shell.ItemTemplate>
-    <Shell.FlyoutHeader>
-        <Grid>
-            <Image></Image>
-        </Grid>
-    </Shell.FlyoutHeader>
+    <Shell.FlyoutFooter>
+        <StackLayout Margin="16,8">
+            <Label Margin="6,0"
+                   Text="{Binding CurrentTime, Converter={StaticResource DateTimeConverter}}"
+                   HorizontalOptions="Center"
+                   FontFamily="Digital-Regular"
+                   FontSize="26" />
+        </StackLayout>
+    </Shell.FlyoutFooter>
 
-    <FlyoutItem Title="{Binding Main.Title}" Icon="{Binding Main.Icon}">
-        <Tab>
-            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
-        </Tab>
+    <FlyoutItem Title="{Binding Main.Title}"
+                Icon="{AppThemeBinding Light='ic_fluent_home_light.png', Dark='ic_fluent_home_dark.png'}">
+        <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="{Binding Review.Title}" Icon="{Binding Review.Icon}">
-        <Tab>
-            <ShellContent ContentTemplate="{DataTemplate views:ReviewPage}" />
-        </Tab>
+    <FlyoutItem Title="{Binding Review.Title}"
+                Icon="{AppThemeBinding Light='ic_fluent_book_light.png', Dark='ic_fluent_book_dark.png'}">
+        <ShellContent ContentTemplate="{DataTemplate views:ReviewPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="{Binding Settings.Title}" Icon="{Binding Settings.Icon}">
-        <Tab>
-            <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
-        </Tab>
+    <FlyoutItem Title="{Binding Settings.Title}"
+                Icon="{AppThemeBinding Light='ic_fluent_settings_light.png', Dark='ic_fluent_settings_dark.png'}">
+        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
     </FlyoutItem>
 
 </Shell>

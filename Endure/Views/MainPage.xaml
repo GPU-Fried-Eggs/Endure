@@ -8,6 +8,9 @@
             Padding="30,0"
             VerticalOptions="Center">
 
+            <Editor x:Name="Editor"
+                    Placeholder="Enter your search"
+                    HeightRequest="250" />
             <Image
                 Source="dotnet_bot.png"
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"

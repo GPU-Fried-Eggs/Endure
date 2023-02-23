@@ -10,13 +10,12 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-#if WINDOWS
-           .ConfigureBackdropBackground()  
-#endif
+            .ConfigureBackdropBackground()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("Digital-Regular.ttf", "DigitalRegular");
             });
 
 #if DEBUG

@@ -4,8 +4,11 @@ using Endure.Resources.Strings;
 
 namespace Endure.ViewModels;
 
-public class ShellViewModel : ObservableObject
+public partial class ShellViewModel : ObservableObject
 {
+    [ObservableProperty]
+    private DateTime currentTime;
+
     public AppSection Main { get; }
 
     public AppSection Review { get; }
@@ -14,20 +17,18 @@ public class ShellViewModel : ObservableObject
 
     public ShellViewModel()
     {
-        Main = new AppSection
+        if (Constants.Desktop)
         {
-            Title = AppResource.Home,
-            Icon = "ic_fluent_home.png"
-        };
-        Review = new AppSection
-        {
-            Title = AppResource.Review,
-            Icon = "ic_fluent_book.png"
-        };
-        Settings = new AppSection
-        {
-            Title = AppResource.Settings,
-            Icon = "ic_fluent_settings.png"
-        };
+            var timer = App.Current.Dispatcher.CreateTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += (_, _) => CurrentTime = DateTime.Now;
+            timer.Start();
+        }
+
+        currentTime = DateTime.Now;
+
+        Main = new AppSection { Title = AppResource.Home };
+        Review = new AppSection { Title = AppResource.Review };
+        Settings = new AppSection { Title = AppResource.Settings };
     }
 }

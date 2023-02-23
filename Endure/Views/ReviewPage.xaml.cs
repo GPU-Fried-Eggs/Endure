@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Endure.ViewModels;
 
 namespace Endure.Views;
 
-public partial class ReviewPage : ContentPage
+public partial class ReviewPage
 {
     public ReviewPage()
     {
         InitializeComponent();
+
+        BindingContext = new ReviewViewModel();
     }
 }

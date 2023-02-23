@@ -53,33 +53,8 @@
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="7.0.52" />
-        <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.13.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <MauiXaml Update="AppDesktopShell.xaml">
-        <SubType>Designer</SubType>
-      </MauiXaml>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="AppDesktopShell.xaml.cs">
-        <DependentUpon>DesktopShell.xaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Resources\Strings\AppResource.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>AppResource.resx</DependentUpon>
-      </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Update="Resources\Strings\AppResource.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>AppResource.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
+        <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="7.0.59" />
+        <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.14.0" />
     </ItemGroup>
 
 </Project>
