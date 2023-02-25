@@ -2,7 +2,7 @@
 
 namespace Endure.ViewModels;
 
-public enum BackdropStyle { Mica, Acrylic }
+public enum BackdropStyle { None, Mica, Acrylic }
 
 public partial class SettingsViewModel : ObservableObject
 {
@@ -14,6 +14,9 @@ public partial class SettingsViewModel : ObservableObject
 
     [ObservableProperty]
     private string[] backdrops;
+
+    [ObservableProperty]
+    private bool sync;
 
     public SettingsViewModel()
     {
@@ -30,5 +33,10 @@ public partial class SettingsViewModel : ObservableObject
     partial void OnThemeChanged(AppTheme value)
     {
         App.Current.Theme = value;
+    }
+
+    partial void OnSyncChanged(bool value)
+    {
+        
     }
 }

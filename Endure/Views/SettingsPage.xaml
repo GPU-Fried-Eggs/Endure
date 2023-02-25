@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage
     x:Class="Endure.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -11,42 +12,91 @@
     </ContentPage.Resources>
 
     <StackLayout Orientation="Vertical" Padding="24,0">
+
         <Label Text="{x:Static strings:AppResource.Settings}"
                SemanticProperties.HeadingLevel="Level1"
-               Style="{StaticResource LargeLabel}" />
+               Style="{StaticResource LargeLabelStyle}" />
+
         <ScrollView>
-            <StackLayout Orientation="Vertical" Spacing="12">
-                <StackLayout RadioButtonGroup.GroupName="themeMode"
-                             RadioButtonGroup.SelectedValue="{Binding Theme, Converter={StaticResource ThemeConverter}}"
-                             HorizontalOptions="Start">
-                    <Label Text="{x:Static strings:AppResource.Theme_Mode}"
-                           SemanticProperties.HeadingLevel="Level2"
-                           Style="{StaticResource MedianLabel}" />
-                    <Label Text="{x:Static strings:AppResource.Description_Theme_Mode}"
-                           TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray100}}" />
-                    <RadioButton MinimumHeightRequest="36"
-                                 Content="Light mode"
-                                 Value="Light" />
-                    <RadioButton MinimumHeightRequest="36"
-                                 Content="Dark mode"
-                                 Value="Dark" />
-                    <RadioButton MinimumHeightRequest="36"
-                                 Content="Sync with OS"
-                                 Value="System"
-                                 IsEnabled="False" />
-                </StackLayout>
-                <StackLayout HorizontalOptions="Start">
-                    <Label Text="{x:Static strings:AppResource.Backdrop_Mode}"
-                           SemanticProperties.HeadingLevel="Level2"
-                           Margin="0,8"
-                           FontSize="18" />
-                    <Picker Title="{x:Static strings:AppResource.Description_Backdrop_Mode}"
-                            TitleColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray100}}"
-                            ItemsSource="{Binding Backdrops}"
-                            SelectedIndex="{Binding Style, Converter={StaticResource StyleConverter}}" />
-                </StackLayout>
+
+            <StackLayout Orientation="Vertical" Spacing="8">
+
+                <Border Style="{StaticResource RoundBorder}">
+                    <Grid Padding="16" RowDefinitions="*,*,32,auto">
+                        <Label Text="{x:Static strings:AppResource.Theme_Mode}"
+                               SemanticProperties.HeadingLevel="Level2" />
+                        <Label Grid.Row="1"
+                               Text="{x:Static strings:AppResource.Description_Theme_Mode}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray100}}"
+                               Style="{StaticResource SmallLabelStyle}" />
+                        <BoxView Grid.Row="2"
+                                 Color="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}"
+                                 HeightRequest="1"
+                                 HorizontalOptions="Fill" />
+                        <StackLayout Grid.Row="3"
+                                     RadioButtonGroup.GroupName="themeMode"
+                                     RadioButtonGroup.SelectedValue="{Binding Theme, Converter={StaticResource ThemeConverter}}"
+                                     Padding="16,0,6,0"
+                                     HorizontalOptions="Start">
+                            <RadioButton Content="Light mode" Value="Light" />
+                            <RadioButton Content="Dark mode" Value="Dark" />
+                            <RadioButton Content="Sync with OS" Value="Unspecified" />
+                        </StackLayout>
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource RoundBorder}">
+                    <Grid Padding="16" RowDefinitions="*,*" ColumnDefinitions="42,*,120">
+                        <Image Grid.RowSpan="2"
+                               HorizontalOptions="Start"
+                               Margin="4,0"
+                               WidthRequest="24"
+                               Source="{AppThemeBinding Light='ic_fluent_paint_brush_light.png', Dark='ic_fluent_paint_brush_dark.png'}" />
+                        <Label Grid.Column="1"
+                               Text="{x:Static strings:AppResource.Backdrop_Mode}"
+                               SemanticProperties.HeadingLevel="Level2" />
+                        <Label Grid.Column="1"
+                               Grid.Row="1"
+                               Text="{x:Static strings:AppResource.Description_Backdrop_Mode}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray100}}"
+                               Style="{StaticResource SmallLabelStyle}" />
+                        <Picker Grid.Column="2"
+                                Grid.RowSpan="2"
+                                IsEnabled="{OnPlatform Default='False', WinUI='True'}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End"
+                                WidthRequest="120"
+                                ItemsSource="{Binding Backdrops}"
+                                SelectedIndex="{Binding Style, Converter={StaticResource StyleConverter}}" />
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource RoundBorder}">
+                    <Grid Padding="16" RowDefinitions="*,*" ColumnDefinitions="42,*,90">
+                        <Image Grid.RowSpan="2"
+                               HorizontalOptions="Start"
+                               Margin="4,0"
+                               WidthRequest="24"
+                               Source="{AppThemeBinding Light='ic_fluent_arrow_sync_light.png', Dark='ic_fluent_arrow_sync_dark.png'}" />
+                        <Label Grid.Column="1"
+                               Text="{x:Static strings:AppResource.Data_Sync}"
+                               SemanticProperties.HeadingLevel="Level2" />
+                        <Label Grid.Column="1"
+                               Grid.Row="1"
+                               Text="{x:Static strings:AppResource.Description_Data_Sync}"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray100}}"
+                               Style="{StaticResource SmallLabelStyle}" />
+                        <Switch Grid.Column="2"
+                                Grid.RowSpan="2"
+                                IsToggled="{Binding Sync}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End" />
+                    </Grid>
+                </Border>
             </StackLayout>
+
         </ScrollView>
+
     </StackLayout>
 
 </ContentPage>

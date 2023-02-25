@@ -4,10 +4,10 @@ namespace Endure.Views;
 
 public partial class ReviewPage
 {
-    public ReviewPage()
+    public ReviewPage(ReviewViewModel reviewViewModel)
     {
         InitializeComponent();
 
-        BindingContext = new ReviewViewModel();
+        BindingContext = reviewViewModel;
     }
 }

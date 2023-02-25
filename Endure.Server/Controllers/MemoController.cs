@@ -18,62 +18,62 @@ public enum ErrorCode
 [Route("api/[controller]")]
 public class MemoController : ControllerBase
 {
-    private readonly MemoContext m_context = new MemoContext();
+    private readonly EndureDbContext m_dbContext = new EndureDbContext("");
 
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok((m_context.Memos ?? throw new Exception("Unable to get memory from context")).ToList());
+        return Ok((m_dbContext.Memos ?? throw new Exception("Unable to get memory from context")).ToList());
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] Memo? card)
+    public IActionResult Post([FromBody] Memo? memo)
     {
         try
         {
-            if (card == null || !ModelState.IsValid)
+            if (memo == null || !ModelState.IsValid)
                 return BadRequest(ErrorCode.MemoDetailsRequired.ToString());
 
-            var exist = m_context.Find<Memo>(card.Id);
+            var exist = m_dbContext.Find<Memo>(memo.Id);
 
             if (exist != null)
                 return StatusCode(StatusCodes.Status409Conflict, ErrorCode.MemoIdInUse.ToString());
 
-            m_context.Add(card);
-            m_context.SaveChanges();
+            m_dbContext.Add(memo);
+            m_dbContext.SaveChanges();
         }
         catch (Exception)
         {
             return BadRequest(ErrorCode.UnableCreateAction.ToString());
         }
 
-        return Ok(card);
+        return Ok(memo);
     }
 
     [HttpPut]
-    public IActionResult Put([FromBody] Memo? card)
+    public IActionResult Put([FromBody] Memo? memo)
     {
         try
         {
-            if (card == null || !ModelState.IsValid)
+            if (memo == null || !ModelState.IsValid)
                 return BadRequest(ErrorCode.MemoDetailsRequired.ToString());
 
-            var exist = m_context.Find<Memo>(card.Id);
+            var exist = m_dbContext.Find<Memo>(memo.Id);
 
             if (exist == null)
                 return NotFound(ErrorCode.MemoNotFound.ToString());
 
-            exist.Name = card.Name;
-            exist.Summary = card.Summary;
-            exist.Touch = card.Touch;
-            m_context.SaveChanges();
+            exist.Name = memo.Name;
+            exist.Summary = memo.Summary;
+            exist.Touch = memo.Touch;
+            m_dbContext.SaveChanges();
         }
         catch (Exception)
         {
             return BadRequest(ErrorCode.UnableUpdateAction.ToString());
         }
 
-        return Ok(card);
+        return Ok(memo);
     }
 
     [HttpDelete("{id:guid}")]
@@ -81,13 +81,13 @@ public class MemoController : ControllerBase
     {
         try
         {
-            var item = m_context.Find<Memo>(id);
+            var item = m_dbContext.Find<Memo>(id);
 
             if (item == null)
                 return NotFound(ErrorCode.MemoNotFound.ToString());
 
-            m_context.Remove(item);
-            m_context.SaveChanges();
+            m_dbContext.Remove(item);
+            m_dbContext.SaveChanges();
         }
         catch (Exception)
         {

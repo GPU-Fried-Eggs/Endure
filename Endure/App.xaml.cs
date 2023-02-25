@@ -2,13 +2,20 @@
 
 namespace Endure;
 
+public class AppBackdropStyleChangedEventArgs : EventArgs
+{
+    public BackdropStyle Style { get; }
+
+    public AppBackdropStyleChangedEventArgs(BackdropStyle style) => Style = style;
+}
+
 public partial class App
 {
     public new static App Current => Application.Current as App ?? throw new ArgumentNullException();
 
-    public Window? StartupWindow { get; private set; }
+    public Window? StartupWindow { get; set; }
 
-    public Action<AppTheme> ThemeChanged = _ => { };
+    public bool DataSync { get; set; }
 
     public AppTheme Theme
     {
@@ -19,12 +26,21 @@ public partial class App
         set
         {
             Preferences.Set(nameof(Theme), value.ToString());
-            Current.UserAppTheme = value;
-            ThemeChanged(value);
+            switch (value)
+            {
+                case AppTheme.Unspecified:
+                    Current.UserAppTheme = Current.PlatformAppTheme;
+                    RequestedThemeChanged += OnSystemThemeChanged;
+                    break;
+                default:
+                    Current.UserAppTheme = value;
+                    RequestedThemeChanged -= OnSystemThemeChanged;
+                    break;
+            }
         }
     }
 
-    public Action<BackdropStyle> BackdropChanged = _ => { };
+    public event EventHandler<AppBackdropStyleChangedEventArgs>? BackdropChanged;
 
     public BackdropStyle BackdropStyle
     {
@@ -35,7 +51,7 @@ public partial class App
         set
         {
             Preferences.Set(nameof(BackdropStyle), value.ToString());
-            BackdropChanged(value);
+            BackdropChanged?.Invoke(this, new AppBackdropStyleChangedEventArgs(value));
         }
     }
 
@@ -46,15 +62,16 @@ public partial class App
         switch (Theme)
         {
             case AppTheme.Unspecified:
+                RequestedThemeChanged += OnSystemThemeChanged;
+                break;
             case AppTheme.Light:
-            default:
                 Current.UserAppTheme = AppTheme.Light;
                 break;
             case AppTheme.Dark:
                 Current.UserAppTheme = AppTheme.Dark;
                 break;
         }
-        
+
         MainPage = Constants.Desktop ? new AppDesktopShell() : new AppMobileShell();
     }
 
@@ -74,6 +91,11 @@ public partial class App
         }
 
         return StartupWindow;
+    }
+
+    private void OnSystemThemeChanged(object? sender, AppThemeChangedEventArgs args)
+    {
+        UserAppTheme = args.RequestedTheme;
     }
 
     private void OnResize(object? sender, EventArgs e)

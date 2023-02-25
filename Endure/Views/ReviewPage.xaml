@@ -3,10 +3,29 @@
     x:Class="Endure.Views.ReviewPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:strings="using:Endure.Resources.Strings">
+    xmlns:strings="using:Endure.Resources.Strings"
+    xmlns:controls="using:Endure.Controls">
+    <ContentPage.Resources>
+        <DataTemplate x:Key="FullDetailTemplate">
+            
+        </DataTemplate>
+        <DataTemplate x:Key="LessDetailTemplate">
 
-    <StackLayout Orientation="Vertical">
-        
+        </DataTemplate>
+        <controls:DetailDataTemplateSelector x:Key="DetailSelector"
+                                             FullDetailTemplate="{StaticResource FullDetailTemplate}"
+                                             LessDetailTemplate="{StaticResource LessDetailTemplate}" />
+    </ContentPage.Resources>
+
+    <StackLayout Orientation="Vertical" Padding="24,0">
+
+        <Label Text="{x:Static strings:AppResource.Review}"
+               SemanticProperties.HeadingLevel="Level1"
+               Style="{StaticResource LargeLabelStyle}" />
+
+        <CarouselView ItemsSource="{Binding Memos}"
+                      ItemTemplate="{StaticResource DetailSelector}"/>
+
     </StackLayout>
 
 </ContentPage>

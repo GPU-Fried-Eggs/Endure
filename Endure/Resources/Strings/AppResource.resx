@@ -21,6 +21,9 @@
     <data name="Home" xml:space="preserve">
         <value>Home</value>
     </data>
+    <data name="Review" xml:space="preserve">
+        <value>Review</value>
+    </data>
     <data name="Settings" xml:space="preserve">
         <value>Settings</value>
     </data>
@@ -30,13 +33,16 @@
     <data name="Description_Theme_Mode" xml:space="preserve">
         <value>Application theme mode</value>
     </data>
-    <data name="Review" xml:space="preserve">
-        <value>Review</value>
-    </data>
     <data name="Backdrop_Mode" xml:space="preserve">
         <value>Backdrop Mode</value>
     </data>
     <data name="Description_Backdrop_Mode" xml:space="preserve">
         <value>Application backdrop mode</value>
+    </data>
+    <data name="Data_Sync" xml:space="preserve">
+        <value>Synchronize Data</value>
+    </data>
+    <data name="Description_Data_Sync" xml:space="preserve">
+        <value>Synchronize data from remote repository</value>
     </data>
 </root>

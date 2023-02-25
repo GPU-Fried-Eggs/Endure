@@ -7,5 +7,8 @@
         <ResourceDictionary Source="Elements/Shell.xaml" />
         <ResourceDictionary Source="Elements/Label.xaml" />
         <ResourceDictionary Source="Elements/Button.xaml" />
+        <ResourceDictionary Source="Elements/Border.xaml" />
+        <ResourceDictionary Source="Elements/Picker.xaml" />
+        <ResourceDictionary Source="Elements/Page.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

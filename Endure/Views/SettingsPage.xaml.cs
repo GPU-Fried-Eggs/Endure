@@ -4,10 +4,10 @@ namespace Endure.Views;
 
 public partial class SettingsPage
 {
-    public SettingsPage()
+    public SettingsPage(SettingsViewModel settingsViewModel)
     {
         InitializeComponent();
 
-        BindingContext = new SettingsViewModel();
+        BindingContext = settingsViewModel;
     }
 }

@@ -3,13 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Endure.Server.Data;
 
-public class MemoContext : DbContext
+public class EndureDbContext : DbContext
 {
     public DbSet<Memo>? Memos { get; set; }
 
+    private readonly string m_connectionString;
+
+    public EndureDbContext(string connectionString)
+    {
+        m_connectionString = connectionString;
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseInMemoryDatabase("Endure");
+        optionsBuilder.UseSqlite(m_connectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

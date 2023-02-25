@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
     x:Class="Endure.AppDesktopShell"
-    x:DataType="viewmodels:ShellViewModel"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="using:Endure.Converters"
-    xmlns:viewmodels="using:Endure.ViewModels"
     xmlns:views="using:Endure.Views"
-    Shell.FlyoutBehavior="Disabled">
+    Style="{StaticResource DesktopShell}"
+    FlyoutBehavior="Disabled">
     <Shell.Resources>
         <converters:DateTimeToStringConverter x:Key="DateTimeConverter" />
     </Shell.Resources>
     <Shell.FlyoutHeader>
-        <StackLayout Orientation="Vertical">
-            <Image HeightRequest="100" Source="ic_fluent_archive.png" />
-            <SearchBar Margin="16,8" MinimumHeightRequest="24"  Placeholder="Search" />
+        <StackLayout Orientation="Vertical" Padding="16">
+            <Image HeightRequest="100" Source="bookshelf.png"></Image>
+            <SearchBar Margin="0,8" MinimumHeightRequest="24"  Placeholder="Search" />
         </StackLayout>
     </Shell.FlyoutHeader>
     <Shell.ItemTemplate>

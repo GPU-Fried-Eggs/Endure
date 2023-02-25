@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
     x:Class="Endure.AppMobileShell"
-    x:DataType="viewmodels:ShellViewModel"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewmodels="using:Endure.ViewModels"
     xmlns:views="using:Endure.Views">
 
-    <TabBar>
+    <TabBar Style="{StaticResource MobileShell}">
 
-        <Tab Title="{Binding Main.Title}"
-             Icon="{AppThemeBinding Light='ic_fluent_home_light.png', Dark='ic_fluent_home_dark.png'}">
-            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
-        </Tab>
+        <ShellContent Title="{Binding Main.Title}"
+                      Icon="{AppThemeBinding Light='ic_fluent_home_light.png', Dark='ic_fluent_home_dark.png'}"
+                      ContentTemplate="{DataTemplate views:MainPage}" />
 
-        <Tab Title="{Binding Review.Title}"
-             Icon="{AppThemeBinding Light='ic_fluent_book_light.png', Dark='ic_fluent_book_dark.png'}">
-            <ShellContent ContentTemplate="{DataTemplate views:ReviewPage}" />
-        </Tab>
+        <ShellContent Title="{Binding Review.Title}"
+                      Icon="{AppThemeBinding Light='ic_fluent_book_light.png', Dark='ic_fluent_book_dark.png'}"
+                      ContentTemplate="{DataTemplate views:ReviewPage}" />
 
-        <Tab Title="{Binding Settings.Title}"
-             Icon="{AppThemeBinding Light='ic_fluent_settings_light.png', Dark='ic_fluent_settings_dark.png'}">
-            <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
-        </Tab>
+        <ShellContent Title="{Binding Settings.Title}"
+                      Icon="{AppThemeBinding Light='ic_fluent_settings_light.png', Dark='ic_fluent_settings_dark.png'}"
+                      ContentTemplate="{DataTemplate views:SettingsPage}" />
 
     </TabBar>
 

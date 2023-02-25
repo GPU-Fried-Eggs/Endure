@@ -18,7 +18,7 @@ namespace Endure.Resources.Strings {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class AppResource {
@@ -69,11 +69,29 @@ namespace Endure.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Synchronize Data.
+        /// </summary>
+        internal static string Data_Sync {
+            get {
+                return ResourceManager.GetString("Data_Sync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application backdrop mode.
         /// </summary>
         internal static string Description_Backdrop_Mode {
             get {
                 return ResourceManager.GetString("Description_Backdrop_Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronize data from remote repository.
+        /// </summary>
+        internal static string Description_Data_Sync {
+            get {
+                return ResourceManager.GetString("Description_Data_Sync", resourceCulture);
             }
         }
         
