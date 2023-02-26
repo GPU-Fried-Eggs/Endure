@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml;
 using WinRT;
 using Window = Microsoft.UI.Xaml.Window;
 
-namespace Endure.Services;
+namespace Endure.WinUI.Services;
 
 public class DispatcherQueueHelper
 {
@@ -46,13 +46,13 @@ public class DispatcherQueueHelper
     }
 }
 
-public class WindowsBackdropService
+public class BackdropService
 {
     private ISystemBackdropControllerWithTargets? m_controller;
     private readonly SystemBackdropConfiguration? m_configuration;
     private readonly Window m_window;
 
-    public WindowsBackdropService(Window window)
+    public BackdropService(Window window)
     {
         m_window = window;
 
@@ -64,18 +64,11 @@ public class WindowsBackdropService
         m_window.Activated += WindowActivated;
         m_window.Closed += WindowClosed;
 
-        App.Current.RequestedThemeChanged += WindowThemeChanged;
+        Endure.App.Current.RequestedThemeChanged += WindowThemeChanged;
         App.Current.BackdropChanged += WindowBackdropChanged;
     }
 
-    public static void Create(Window window)
-    {
-        var service = new WindowsBackdropService(window);
-        
-        service.TrySetBackdrop(App.Current.BackdropStyle);
-    }
-
-    private void TrySetBackdrop(BackdropStyle style)
+    public void TrySetBackdrop(BackdropStyle style)
     {
         switch (style)
         {
@@ -94,7 +87,7 @@ public class WindowsBackdropService
     {
         if (MicaController.IsSupported())
         {
-            WindowThemeChanged(null, new AppThemeChangedEventArgs(App.Current.Theme));
+            WindowThemeChanged(null, new AppThemeChangedEventArgs(Endure.App.Current.Theme));
 
             m_controller = new MicaController();
             m_controller.AddSystemBackdropTarget(m_window.As<ICompositionSupportsSystemBackdrop>());
@@ -106,7 +99,7 @@ public class WindowsBackdropService
     {
         if (DesktopAcrylicController.IsSupported())
         {
-            WindowThemeChanged(null, new AppThemeChangedEventArgs(App.Current.Theme));
+            WindowThemeChanged(null, new AppThemeChangedEventArgs(Endure.App.Current.Theme));
 
             m_controller = new DesktopAcrylicController();
             m_controller.AddSystemBackdropTarget(m_window.As<ICompositionSupportsSystemBackdrop>());
@@ -133,7 +126,7 @@ public class WindowsBackdropService
         m_window.Activated -= WindowActivated;
         m_window.Closed -= WindowClosed;
 
-        App.Current.RequestedThemeChanged -= WindowThemeChanged;
+        Endure.App.Current.RequestedThemeChanged -= WindowThemeChanged;
         App.Current.BackdropChanged -= WindowBackdropChanged;
     }
 

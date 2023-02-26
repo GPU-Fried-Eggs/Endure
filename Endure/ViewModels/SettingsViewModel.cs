@@ -10,24 +10,24 @@ public partial class SettingsViewModel : ObservableObject
     private AppTheme theme;
 
     [ObservableProperty]
+    private bool sync;
+
+    [ObservableProperty]
     private BackdropStyle style;
 
     [ObservableProperty]
     private string[] backdrops;
 
-    [ObservableProperty]
-    private bool sync;
-
     public SettingsViewModel()
     {
-        backdrops = Enum.GetNames(typeof(BackdropStyle));
         theme = App.Current.Theme;
-        style = App.Current.BackdropStyle;
-    }
-
-    partial void OnStyleChanged(BackdropStyle value)
-    {
-        App.Current.BackdropStyle = value;
+#if WINDOWS
+        backdrops = Enum.GetNames(typeof(BackdropStyle));
+        style = WinUI.App.Current.BackdropStyle;
+#else
+        backdrops = new[] { "N/N" };
+        style = default;
+#endif
     }
 
     partial void OnThemeChanged(AppTheme value)
@@ -39,4 +39,11 @@ public partial class SettingsViewModel : ObservableObject
     {
         
     }
+
+#if WINDOWS
+    partial void OnStyleChanged(BackdropStyle value)
+    {
+        WinUI.App.Current.BackdropStyle = value;
+    }
+#endif
 }

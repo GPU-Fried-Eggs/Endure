@@ -1,6 +1,4 @@
-﻿using Microsoft.Maui.LifecycleEvents;
-
-namespace Endure.Services;
+﻿namespace Endure.Services;
 
 public static class ServicesExtensions
 {
@@ -10,13 +8,5 @@ public static class ServicesExtensions
         builder.Services.AddSingleton<IMemoService, MemoService>();
 
         return builder;
-    }
-
-    public static void RegisterLifecycleEvent(ILifecycleBuilder events)
-    {
-#if WINDOWS
-        events.AddWindows(windows => windows
-            .OnWindowCreated(WindowsBackdropService.Create));
-#endif
     }
 }

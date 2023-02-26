@@ -24,7 +24,9 @@ public static class MauiProgram
             })
             .ConfigureLifecycleEvents(events =>
             {
-                ServicesExtensions.RegisterLifecycleEvent(events);
+#if WINDOWS
+                WinUI.Services.WindowsServicesExtensions.RegisterLifecycleEvent(events);
+#endif
                 ViewModelsExtensions.RegisterLifecycleEvent(events);
             });
 

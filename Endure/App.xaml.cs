@@ -1,19 +1,8 @@
-﻿using Endure.ViewModels;
-
-namespace Endure;
-
-public class AppBackdropStyleChangedEventArgs : EventArgs
-{
-    public BackdropStyle Style { get; }
-
-    public AppBackdropStyleChangedEventArgs(BackdropStyle style) => Style = style;
-}
+﻿namespace Endure;
 
 public partial class App
 {
     public new static App Current => Application.Current as App ?? throw new ArgumentNullException();
-
-    public Window? StartupWindow { get; set; }
 
     public bool DataSync { get; set; }
 
@@ -40,20 +29,7 @@ public partial class App
         }
     }
 
-    public event EventHandler<AppBackdropStyleChangedEventArgs>? BackdropChanged;
-
-    public BackdropStyle BackdropStyle
-    {
-        get =>
-            Preferences.ContainsKey(nameof(BackdropStyle))
-                ? Enum.Parse<BackdropStyle>(Preferences.Get(nameof(BackdropStyle), Enum.GetName(BackdropStyle.Mica)) ?? string.Empty)
-                : BackdropStyle.Mica;
-        set
-        {
-            Preferences.Set(nameof(BackdropStyle), value.ToString());
-            BackdropChanged?.Invoke(this, new AppBackdropStyleChangedEventArgs(value));
-        }
-    }
+    private Window? m_startupWindow;
 
     public App()
     {
@@ -77,20 +53,20 @@ public partial class App
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        StartupWindow = base.CreateWindow(activationState);
+        m_startupWindow = base.CreateWindow(activationState);
 
         if (Constants.Desktop)
         {
-            StartupWindow.MinimumWidth = 768;
-            StartupWindow.MinimumHeight = 432;
+            m_startupWindow.MinimumWidth = 768;
+            m_startupWindow.MinimumHeight = 432;
 
-            StartupWindow.MaximumWidth = 1920;
-            StartupWindow.MaximumHeight = 1080;
+            m_startupWindow.MaximumWidth = 1920;
+            m_startupWindow.MaximumHeight = 1080;
 
-            StartupWindow.SizeChanged += OnResize;
+            m_startupWindow.SizeChanged += OnResize;
         }
 
-        return StartupWindow;
+        return m_startupWindow;
     }
 
     private void OnSystemThemeChanged(object? sender, AppThemeChangedEventArgs args)
@@ -100,8 +76,8 @@ public partial class App
 
     private void OnResize(object? sender, EventArgs e)
     {
-        if (StartupWindow is null) return;
+        if (m_startupWindow is null) return;
 
-        Shell.Current.FlyoutBehavior = StartupWindow.Width < 960 ? FlyoutBehavior.Flyout : FlyoutBehavior.Locked;
+        Shell.Current.FlyoutBehavior = m_startupWindow.Width < 960 ? FlyoutBehavior.Flyout : FlyoutBehavior.Locked;
     }
 }
