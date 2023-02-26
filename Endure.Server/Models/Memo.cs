@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Endure.Server.Models;
 
-[PrimaryKey(nameof(Id))]
+[PrimaryKey(nameof(MemoId))]
 public class Memo
 {
     /// <summary>
     /// Unique id (ms style :D) of the memory
     /// </summary>
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
+    public Guid MemoId { get; set; }
     
     /// <summary>
     /// Name of the memory, e.g. human / ihmisen / 人类 / 人々
@@ -31,8 +31,10 @@ public class Memo
     /// <summary>
     /// The last touch of this memory
     /// </summary>
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime Touch { get; set; }
-    
+
+    /// <summary>
+    /// The word model.
+    /// </summary>
     public Word Word { get; set; }
 }

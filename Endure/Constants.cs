@@ -15,4 +15,16 @@ public static class Constants
     public static readonly string Port = "8989";
 
     public static readonly string ApiUrl = $"{Scheme}://{LocalhostUrl}:{Port}/api/";
+    
+    // B2c
+    private static readonly string TenantName = "";
+
+    private static readonly string Tenant = $"{TenantName}.onmicrosoft.com";
+
+    private static readonly string AzureAdB2CHostname = $"{TenantName}.b2clogin.com";
+
+    private static readonly string ClientId = "";
+
+    // B2C user flows
+    public static string PolicySignUpSignIn = "b2c_1_susi";
 }

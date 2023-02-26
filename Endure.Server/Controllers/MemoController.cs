@@ -1,29 +1,36 @@
 ﻿using Endure.Server.Data;
+using Endure.Server.Errors;
 using Endure.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Endure.Server.Controllers;
 
-public enum ErrorCode
-{
-    MemoDetailsRequired,
-    MemoIdInUse,
-    MemoNotFound,
-    UnableCreateAction,
-    UnableUpdateAction,
-    UnableDeleteAction
-}
-
 [ApiController]
 [Route("api/[controller]")]
 public class MemoController : ControllerBase
 {
-    private readonly EndureDbContext m_dbContext = new EndureDbContext("");
+    private readonly AppDbContext m_dbContext;
+
+    private readonly ILogger<MemoController> m_logger;
+
+    public MemoController(AppDbContext context, ILogger<MemoController> logger)
+    {
+        m_dbContext = context;
+        m_logger = logger;
+    }
 
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok((m_dbContext.Memos ?? throw new Exception("Unable to get memory from context")).ToList());
+        try
+        {
+            return Ok((m_dbContext.Memos ?? throw new Exception("Unable to get memory from context")).ToList());
+        }
+        catch (Exception e)
+        {
+            m_logger.Log(LogLevel.Error, e.ToString());
+            return BadRequest(ErrorCode.UnableCreateAction.ToString());
+        }
     }
 
     [HttpPost]
@@ -34,16 +41,17 @@ public class MemoController : ControllerBase
             if (memo == null || !ModelState.IsValid)
                 return BadRequest(ErrorCode.MemoDetailsRequired.ToString());
 
-            var exist = m_dbContext.Find<Memo>(memo.Id);
+            var exist = m_dbContext.Find<Memo>(memo.MemoId);
 
             if (exist != null)
                 return StatusCode(StatusCodes.Status409Conflict, ErrorCode.MemoIdInUse.ToString());
 
-            m_dbContext.Add(memo);
+            m_dbContext.Memos?.Add(memo);
             m_dbContext.SaveChanges();
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            m_logger.Log(LogLevel.Error, e.ToString());
             return BadRequest(ErrorCode.UnableCreateAction.ToString());
         }
 
@@ -58,18 +66,19 @@ public class MemoController : ControllerBase
             if (memo == null || !ModelState.IsValid)
                 return BadRequest(ErrorCode.MemoDetailsRequired.ToString());
 
-            var exist = m_dbContext.Find<Memo>(memo.Id);
+            var exist = m_dbContext.Find<Memo>(memo.MemoId);
 
             if (exist == null)
                 return NotFound(ErrorCode.MemoNotFound.ToString());
 
             exist.Name = memo.Name;
             exist.Summary = memo.Summary;
-            exist.Touch = memo.Touch;
+            exist.Level = memo.Level;
             m_dbContext.SaveChanges();
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            m_logger.Log(LogLevel.Error, e.ToString());
             return BadRequest(ErrorCode.UnableUpdateAction.ToString());
         }
 
@@ -86,11 +95,12 @@ public class MemoController : ControllerBase
             if (item == null)
                 return NotFound(ErrorCode.MemoNotFound.ToString());
 
-            m_dbContext.Remove(item);
+            m_dbContext.Memos?.Remove(item);
             m_dbContext.SaveChanges();
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            m_logger.Log(LogLevel.Error, e.ToString());
             return BadRequest(ErrorCode.UnableDeleteAction.ToString());
         }
 

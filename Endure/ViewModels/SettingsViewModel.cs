@@ -13,10 +13,10 @@ public partial class SettingsViewModel : ObservableObject
     private bool sync;
 
     [ObservableProperty]
-    private BackdropStyle style;
+    private string[] backdrops;
 
     [ObservableProperty]
-    private string[] backdrops;
+    private BackdropStyle style;
 
     public SettingsViewModel()
     {
@@ -25,7 +25,7 @@ public partial class SettingsViewModel : ObservableObject
         backdrops = Enum.GetNames(typeof(BackdropStyle));
         style = WinUI.App.Current.BackdropStyle;
 #else
-        backdrops = new[] { "N/N" };
+        backdrops = new[] { "WinSDK" };
         style = default;
 #endif
     }
