@@ -7,10 +7,32 @@
     xmlns:controls="using:Endure.Controls">
     <ContentPage.Resources>
         <DataTemplate x:Key="FullDetailTemplate">
-            
+            <Frame BorderColor="{AppThemeBinding Light={StaticResource LightOutline}, Dark={StaticResource DarkOutline}}"
+                   HeightRequest="300"
+                   WidthRequest="300"
+                   CornerRadius="3"
+                   Margin="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+                <StackLayout Orientation="Vertical">
+                    <Label Text="{Binding Name}"
+                           Style="{StaticResource MediumLabelStyle}"/>
+                    <Label Text="{Binding Summary}" />
+                </StackLayout>
+            </Frame>
         </DataTemplate>
         <DataTemplate x:Key="LessDetailTemplate">
-
+            <Frame BorderColor="{AppThemeBinding Light={StaticResource LightOutline}, Dark={StaticResource DarkOutline}}"
+                   HeightRequest="300"
+                   CornerRadius="6"
+                   Margin="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+                <StackLayout Orientation="Vertical">
+                    <Label Text="{Binding Name}" />
+                    <Label Text="{Binding Summary}" />
+                </StackLayout>
+            </Frame>
         </DataTemplate>
         <controls:DetailDataTemplateSelector x:Key="DetailSelector"
                                              FullDetailTemplate="{StaticResource FullDetailTemplate}"
@@ -24,7 +46,8 @@
                Style="{StaticResource LargeLabelStyle}" />
 
         <CarouselView ItemsSource="{Binding Memos}"
-                      ItemTemplate="{StaticResource DetailSelector}"/>
+                      ItemTemplate="{StaticResource DetailSelector}"
+                      EmptyView="Nothing to display" />
 
     </StackLayout>
 

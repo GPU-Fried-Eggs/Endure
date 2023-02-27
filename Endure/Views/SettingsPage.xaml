@@ -16,7 +16,7 @@
                SemanticProperties.HeadingLevel="Level1"
                Style="{StaticResource LargeLabelStyle}" />
 
-        <ScrollView Grid.Row="1" Orientation="Vertical" VerticalOptions="FillAndExpand">
+        <ScrollView Grid.Row="1" Orientation="Vertical">
 
             <StackLayout Orientation="Vertical" Spacing="8">
 

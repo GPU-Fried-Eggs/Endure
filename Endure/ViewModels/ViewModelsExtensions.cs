@@ -8,6 +8,7 @@ public static class ViewModelsExtensions
     {
         builder.Services.AddSingleton<ReviewViewModel>();
         builder.Services.AddSingleton<SettingsViewModel>();
+        builder.Services.AddSingleton<HomeViewModel>();
 
         return builder;
     }

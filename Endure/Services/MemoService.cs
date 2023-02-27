@@ -26,11 +26,11 @@ public class MemoService : IMemoService
         };
     }
 
-    public async Task<List<Memo>?> GetTasksAsync()
+    public async Task<List<Memo>?> GetMemoAsync()
     {
         Memos = new List<Memo>();
 
-        var uri = new Uri(string.Format(Constants.ApiUrl, "memo"));
+        var uri = new Uri($"{Constants.ApiUrl}/memo");
 
         try
         {
@@ -47,5 +47,16 @@ public class MemoService : IMemoService
         }
 
         return Memos;
+    }
+
+    public Task SaveMemoAsync(Memo memo, bool isNew)
+    {
+        var uri = new Uri($"{Constants.ApiUrl}/memo");
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteMemoAsync(Guid id)
+    {
+        throw new NotImplementedException();
     }
 }

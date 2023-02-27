@@ -2,7 +2,7 @@
 
 public class Memo
 {
-    public Guid? Id { get; set; }
+    public Guid? MemoId { get; set; }
 
     public string? Name { get; set; }
 

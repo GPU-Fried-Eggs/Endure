@@ -70,8 +70,11 @@
 
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
         <PackageReference Include="Microsoft.Identity.Client" Version="4.50.0" />
+        <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="2.19.3" />
         <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="7.0.59" />
         <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.14.0" />
     </ItemGroup>

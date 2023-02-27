@@ -7,20 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    switch (Constants.DatabaseType)
+    switch (builder.Configuration["DatabaseType"])
     {
-        case DatabaseType.Sqlite:
-        {
-            var connectionString = builder.Configuration.GetConnectionString("Sqlite");
-            options.UseSqlite(connectionString ?? throw new ApplicationException("Connection String is not set"));
+        case "Sqlite":
+            options.UseSqlite(builder.Configuration.GetConnectionString("Sqlite") ?? throw new ApplicationException("Connection String is not set"));
             break;
-        }
-        case DatabaseType.SqlServer:
-        {
-            var connectionString = builder.Configuration.GetConnectionString("SqlServer");
-            options.UseSqlServer(connectionString ?? throw new ApplicationException("Connection String is not set"));
+        case "SqlServer":
+            options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer") ?? throw new ApplicationException("Connection String is not set"));
             break;
-        }
     }
 });
 
