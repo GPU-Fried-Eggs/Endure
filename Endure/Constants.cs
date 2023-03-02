@@ -15,18 +15,23 @@ public static class Constants
     public static readonly string ApiUrl = $"{RestUrl}/api";
 
     // B2C setting
-    private static readonly string TenantName = "noendure";
+    public static readonly string TenantName = "noendure";
 
-    private static readonly string Tenant = $"{TenantName}.onmicrosoft.com";
+    public static readonly string Host = $"{TenantName}.b2clogin.com";
 
-    private static readonly string AzureAdB2CHostname = $"{TenantName}.b2clogin.com";
+    public static readonly string Domain = $"{TenantName}.onmicrosoft.com";
 
-    private static readonly string ClientId = "73d8319f-92d8-43a1-93aa-92993d3e7298";
+    public static readonly string TenantId = "59a5b817-8ff1-47cb-a17e-2b29730b548a";
 
-    private static readonly string RedirectUri = $"https://{TenantName}.b2clogin.com/oauth2/nativeclient";
+    public static readonly string ClientId = "73d8319f-92d8-43a1-93aa-92993d3e7298";
 
     // B2C user flows
-    public static string PolicySignUpSignIn = "b2c_1_susi";
-    
-    public static string[] ApiScopes = { $"https://{Tenant}/emotion/read" };
+    public static readonly string SignUpSignInPolicyId = "b2c_1_susi";
+
+    // DownstreamApi
+    public static string[] ApiScopes =
+    {
+        $"https://{Domain}/emotion/read",
+        $"https://{Domain}/emotion/write"
+    };
 }

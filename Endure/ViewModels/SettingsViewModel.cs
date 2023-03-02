@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Endure.Services;
 
 namespace Endure.ViewModels;
 
@@ -18,9 +20,16 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     private BackdropStyle style;
 
-    public SettingsViewModel()
+    private IPublicClientService m_publicClientService;
+
+    public SettingsViewModel(IPublicClientService service)
     {
+        m_publicClientService = service;
+
+        sync = m_publicClientService.GetAccountFromCacheAsync().Result is null;
+
         theme = App.Current.Theme;
+
 #if WINDOWS
         backdrops = Enum.GetNames(typeof(BackdropStyle));
         style = WinUI.App.Current.BackdropStyle;
@@ -35,7 +44,8 @@ public partial class SettingsViewModel : ObservableObject
         App.Current.Theme = value;
     }
 
-    partial void OnSyncChanged(bool value)
+    [RelayCommand]
+    public void ExpandCommand()
     {
         
     }

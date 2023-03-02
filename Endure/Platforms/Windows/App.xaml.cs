@@ -1,4 +1,5 @@
-﻿using Endure.ViewModels;
+﻿using Endure.Services;
+using Endure.ViewModels;
 using Microsoft.UI.Xaml;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -26,7 +27,8 @@ public partial class App : MauiWinUIApplication
     {
         get =>
             Preferences.ContainsKey(nameof(BackdropStyle))
-                ? Enum.Parse<BackdropStyle>(Preferences.Get(nameof(BackdropStyle), Enum.GetName(BackdropStyle.Mica)) ?? string.Empty)
+                ? Enum.Parse<BackdropStyle>(Preferences.Get(nameof(BackdropStyle), Enum.GetName(BackdropStyle.Mica)) ??
+                                            string.Empty)
                 : BackdropStyle.Mica;
         set
         {
@@ -39,10 +41,18 @@ public partial class App : MauiWinUIApplication
     /// Initializes the singleton application object.  This is the first line of authored code
     /// executed, and as such is the logical equivalent of main() or WinMain().
     /// </summary>
-    public App()
-    {
-        this.InitializeComponent();
-    }
+    public App() => this.InitializeComponent();
 
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+    protected override void OnLaunched(LaunchActivatedEventArgs args)
+    {
+        base.OnLaunched(args);
+        Task.Run(() =>
+        {
+            PublicClientService.Instance.CreatePlatformInstance(
+                ((MauiWinUIWindow)Endure.App.Current.StartupWindow?.Handler.PlatformView!).WindowHandle,
+                $"msal{Constants.ClientId}://auth");
+        });
+    }
 }

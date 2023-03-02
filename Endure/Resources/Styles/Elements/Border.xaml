@@ -14,7 +14,7 @@
         <Setter Property="StrokeThickness" Value="0.35" />
         <Setter Property="StrokeShape">
             <Setter.Value>
-                <RoundRectangle CornerRadius="6" />
+                <RoundRectangle CornerRadius="3" />
             </Setter.Value>
         </Setter>
     </Style>

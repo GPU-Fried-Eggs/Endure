@@ -29,7 +29,7 @@ public partial class App
         }
     }
 
-    private Window? m_startupWindow;
+    public Window? StartupWindow { get; private set; }
 
     public App()
     {
@@ -53,20 +53,20 @@ public partial class App
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        m_startupWindow = base.CreateWindow(activationState);
+        StartupWindow = base.CreateWindow(activationState);
 
         if (Constants.Desktop)
         {
-            m_startupWindow.MinimumWidth = 768;
-            m_startupWindow.MinimumHeight = 432;
+            StartupWindow.MinimumWidth = 768;
+            StartupWindow.MinimumHeight = 432;
 
-            m_startupWindow.MaximumWidth = 1920;
-            m_startupWindow.MaximumHeight = 1080;
+            StartupWindow.MaximumWidth = 1920;
+            StartupWindow.MaximumHeight = 1080;
 
-            m_startupWindow.SizeChanged += OnResize;
+            StartupWindow.SizeChanged += OnResize;
         }
 
-        return m_startupWindow;
+        return StartupWindow;
     }
 
     private void OnSystemThemeChanged(object? sender, AppThemeChangedEventArgs args)
@@ -76,8 +76,8 @@ public partial class App
 
     private void OnResize(object? sender, EventArgs e)
     {
-        if (m_startupWindow is null) return;
+        if (StartupWindow is null) return;
 
-        Shell.Current.FlyoutBehavior = m_startupWindow.Width < 960 ? FlyoutBehavior.Flyout : FlyoutBehavior.Locked;
+        Shell.Current.FlyoutBehavior = StartupWindow.Width < 960 ? FlyoutBehavior.Flyout : FlyoutBehavior.Locked;
     }
 }
